@@ -172,5 +172,41 @@ public class PilesAuMemeComportement extends junit.framework.TestCase {
         assertEquals(" différence  sur la taille() ?? ",p3.taille(), p4.taille());
 
     }
+    public void test_Comportement()  throws Exception {
+
+        p4.empiler("c");p4.empiler("b");p4.empiler("a");
+        p3.empiler("c");p3.empiler("b");p3.empiler("a");
+        p2.empiler("c");p2.empiler("b");p2.empiler("a");
+        p1.empiler("c");p1.empiler("b");p1.empiler("a");
+
+        assertEquals(p1.capacite(), p2.capacite());
+        assertEquals(p2.capacite(), p3.capacite());
+        assertEquals(p3.capacite(), p4.capacite());
+
+        assertEquals("[a, b, c]", p1.toString());
+        assertEquals(p1.toString(), p2.toString());
+        assertEquals(p2.toString(), p3.toString());
+        assertEquals(p3.toString(), p4.toString());
+
+        assertEquals(p1.sommet(), p2.sommet());
+        assertEquals(p2.sommet(), p3.sommet());
+        assertEquals(p3.sommet(), p4.sommet());
+
+        String s = (String) p1.depiler();
+        assertEquals(s, (String) p2.depiler());
+        assertEquals(s, (String) p3.depiler());
+        assertEquals(s, (String) p4.depiler());
+        
+        p1.empiler("d");
+        assertFalse(p1.equals(p2));
+        assertFalse(p1.equals(p3));
+        assertTrue(p2.equals(p3));
+        
+        p1.depiler();
+        assertTrue(p1.equals(p2));
+        assertTrue(p1.equals(p3));
+        assertTrue(p2.equals(p3));
+        
+    }
 }
 

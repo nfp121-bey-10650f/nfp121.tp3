@@ -15,8 +15,10 @@ public class Pile implements PileI {
     private int ptr;
 
     public Pile(int taille) {
-        // traiter le cas <=0
-        // a completer
+        if(taille <=0) 
+            taille =PileI.CAPACITE_PAR_DEFAUT;
+        zone = new Object[taille];
+        ptr = 0;
     }
 
     public Pile() {
@@ -24,42 +26,50 @@ public class Pile implements PileI {
     }
 
     public void empiler(Object o) throws PilePleineException {
-        // a completer
+        if(estPleine()) 
+            throw new PilePleineException();
+        zone[ptr]= o;
+        ptr ++;
     }
 
     public Object depiler() throws PileVideException {
-        // a completer
-        return null;
+       if(estVide())
+            throw new PileVideException ();
+       ptr--;
+       return zone[ptr];
+        
     }
 
     public Object sommet() throws PileVideException {
-        // a completer
-        return null;
+        if(estVide()) 
+            throw new PileVideException();
+        return zone[ptr-1];
     }
 
     public int capacite() {
-        // a completer
-        return -1;
+        return this.zone.length;
+        
     }
 
     public int taille() {
-        // a completer
-        return -1;
+        return ptr;
     }
 
     public boolean estVide() {
-        // a completer
-        return false;
+        return (ptr == 0);
     }
 
     public boolean estPleine() {
-        // a completer
-        return false;
+        return (ptr == zone.length);
     }
 
     public boolean equals(Object o) {
-        // a completer
-        return false;
+        if(! (o instanceof PileI) ) return false;
+        PileI op = (PileI)o;
+        if(op.taille() != this.taille()) return false;
+        if(op.capacite() != this.capacite()) return false; 
+        return op.toString().equals(o.toString());
+        
     }
 
     // fonction fournie
@@ -69,6 +79,17 @@ public class Pile implements PileI {
 
     public String toString() {
         // a completer
-        return null;
+        String res = "[";
+       for(int i = ptr-1; i>=0; i--)
+       {
+           res+= zone[i];
+           
+           if(i>0) res+=", ";
+       }
+        
+        res += "]";
+        
+        return res;
+        
     }
 }

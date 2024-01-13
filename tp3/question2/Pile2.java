@@ -4,6 +4,7 @@ import question1.PilePleineException;
 import question1.PileVideException;
 
 import java.util.Stack;
+import java.util.ListIterator;
 
 public class Pile2 implements PileI {
     /** par delegation : utilisation de la class Stack */
@@ -19,8 +20,16 @@ public class Pile2 implements PileI {
      *            la taille de la pile, la taille doit etre > 0
      */
     public Pile2(int taille) {
-        // prevoir le cas <=0
-        // a completer
+        if(taille <= 0)
+         taille = PileI.CAPACITE_PAR_DEFAUT;
+         
+         capacite = taille;
+
+         
+         stk = new Stack<Object>();
+         
+         
+         
     }
 
     // constructeur fourni
@@ -29,17 +38,23 @@ public class Pile2 implements PileI {
     }
 
     public void empiler(Object o) throws PilePleineException {
-        // a completer
+        if(stk.size()>=this.capacite) throw new PilePleineException();
+        
+        stk.push(o);
+         
+           
     }
 
     public Object depiler() throws PileVideException {
-        // a completer
-        return null;
+        if(stk.empty()) throw new PileVideException();
+        
+        return stk.pop();
+        
     }
 
     public Object sommet() throws PileVideException {
-        // a completer
-        return null;
+        if(stk.empty()) throw new PileVideException();
+        return stk.peek();
     }
 
     /**
@@ -48,8 +63,7 @@ public class Pile2 implements PileI {
      * @return vrai si la pile est vide, faux autrement
      */
     public boolean estVide() {
-        // a completer
-        return false;
+        return stk.empty();
     }
 
     /**
@@ -58,8 +72,7 @@ public class Pile2 implements PileI {
      * @return vrai si la pile est pleine, faux autrement
      */
     public boolean estPleine() {
-        // a completer
-        return false;
+        return stk.size() == capacite;
     }
 
     /**
@@ -69,14 +82,29 @@ public class Pile2 implements PileI {
      * @return une representation en String d'une pile
      */
     public String toString() {
-        String s = "[";
-        // a completer
-        return s + "]";
+       ListIterator<Object> stkIterator = stk.listIterator(this.taille());
+       String res = "[";
+       while(stkIterator.hasPrevious())
+       {
+           res+= stkIterator.previous();
+           if (stkIterator.hasPrevious())
+           {
+               res+=", ";
+            }
+        }
+        
+        res += "]";
+        return res;
     }
 
     public boolean equals(Object o) {
-        // a completer
-        return false;
+        if(! (o instanceof PileI) ) return false;
+        PileI op = (PileI)o;
+        if(op.taille() != this.taille()) return false;
+        if(op.capacite() != this.capacite()) return false;
+        
+        return op.toString().equals(this.toString());
+        
     }
 
     // fonction fournie
@@ -90,8 +118,7 @@ public class Pile2 implements PileI {
      * @return le nombre d'element
      */
     public int taille() {
-        // a completer
-        return 0;
+        return stk.size();
     }
 
     /**
@@ -100,8 +127,7 @@ public class Pile2 implements PileI {
      * @return le nombre d'element
      */
     public int capacite() {
-        // a completer
-        return 0;
+        return this.capacite;
     }
-
+    
 } // Pile2.java
